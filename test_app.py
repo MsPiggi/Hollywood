@@ -175,16 +175,16 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data["success"])
 
-    def test_create_actor_no_header_403(self):
-         new_actor = {
+    def test_create_actor_no_header_401(self):
+        new_actor = {
             "name": "Laurence Fishburne",
             "age": 59,
             "gender": "Male"
         }
-        res = self.client().get("/actors", json=new_actor, headers=casting_assistant_header)
+        res = self.client().get("/actors", json=new_actor)
         data = json.loads(res.data.decode('utf-8'))
         
-        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.status_code, 401)
 
     # Update Actor
 

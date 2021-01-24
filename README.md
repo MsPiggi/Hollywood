@@ -1,3 +1,6 @@
+# Heroku 
+The app is hosted here: https://udacityhollywood.herokuapp.com/
+
 # Hollywood APIs 
 
 This readme file describes all needed information for this app, which is hosted on Heroku. 
@@ -39,6 +42,8 @@ python manage.py db upgrade
 To run the app use: 
 
 python3 app.py
+
+
 
 <!--- Endpoints -->
 

@@ -85,14 +85,14 @@ Json opject that contains {'succes': True, 'movies': []}
   "movies": [
     {
     "id": 1,
-    "title": Matrix 4,
-    "release_date": Thu, 24 Dec 2020 00:00:00 GMT,
     "imdb_rating": 10
+    "release_date": "Tue, 19 Jan 2021 00:00:00 GMT",
+    "title": "Matrix 4",
     },    {
     "id": 2,
-    "title": Matrix 3,
-    "release_date": Thu, 24 Dec 2024 00:00:00 GMT,
-    "imdb_rating": 10
+    "imdb_rating": 10,
+    "release_date": "Tue, 19 Jan 2021 00:00:00 GMT",
+    "title": "Matrix 3",
     }]
 }
 
@@ -111,10 +111,10 @@ Json opject that contains {'succes': True, 'message': "Whatever you add, Matrix 
   "message": "Whatever you add, Matrix is the best movie"
   "movies": [
     {
-    "id": 3,
-    "title": Matrix 2,
-    "release_date": Thu, 24 Dec 2020 00:00:00 GMT,
+   "id": 3,
     "imdb_rating": 10
+    "release_date": "Tue, 19 Jan 2021 00:00:00 GMT",
+    "title": "Matrix 2",
     }]
 }
 
@@ -133,9 +133,9 @@ Json opject that contains {'succes': True, 'movies': []}
   "movies": [
     {
     "id": 1,
-    "title": Matrix 2,
-    "release_date": Thu, 24 Dec 2020 00:00:00 GMT,
     "imdb_rating": 10
+    "release_date": "Tue, 19 Jan 2021 00:00:00 GMT",
+    "title": "Matrix 4",
     }]
 }
 
@@ -157,9 +157,9 @@ Json opject that contains {'succes': True, "delete": int, 'deleted_movie': []}
   "movies": [
     {
     "id": 1,
-    "title": Matrix 2,
-    "release_date": Thu, 24 Dec 2020 00:00:00 GMT,
     "imdb_rating": 10
+    "release_date": "Tue, 19 Jan 2021 00:00:00 GMT",
+    "title": "Matrix 4",
     }]
 }
 

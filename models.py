@@ -21,7 +21,7 @@ if DB_HOST == "Not set":
 
 DB_PATH = os.getenv('DATABASE_URL', 'Not set') 
 
-if DB_PATH == "Not Set": 
+if DB_PATH == "Not set": 
     DB_PATH = "postgres://{}:{}@{}/{}".format(DB_USER, DB_PASSWORD , DB_HOST , DB_NAME)
 
 

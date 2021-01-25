@@ -1,6 +1,11 @@
 # Heroku 
 The app is hosted here: https://udacityhollywood.herokuapp.com/
 
+
+# Motivation
+
+I created this API to sufisticate my new developed skills as a full stack developer. This code is for the open source community and I am happy to get in contact with interessted people. 
+
 # Hollywood APIs 
 
 This readme file describes all needed information for this app, which is hosted on Heroku. 
@@ -22,7 +27,7 @@ We recommend working within a virtual environment whenever using Python for proj
 Once you have your virtual environment setup and running, install dependencies by naviging to the `/backend` directory and running:
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 This will install all of the required packages we selected within the `requirements.txt` file.

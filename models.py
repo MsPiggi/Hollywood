@@ -6,12 +6,10 @@ from datetime import date
 
 db = SQLAlchemy()
 
-
-
-DB_HOST = os.getenv('DB_HOST', 'Not set')  
-DB_USER = os.getenv('DB_USER', 'Not set')  
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'Not set')  
-DB_NAME = os.getenv('DB_NAME', 'Not set')  
+DB_HOST = os.getenv('DB_HOST', 'Not set')
+DB_USER = os.getenv('DB_USER', 'Not set')
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'Not set')
+DB_NAME = os.getenv('DB_NAME', 'Not set')
 
 if DB_HOST == "Not set":
     DB_NAME = "capstone"
@@ -19,10 +17,14 @@ if DB_HOST == "Not set":
     DB_PASSWORD = 'Coding2!su'
     DB_HOST = 'localhost:5432'
 
-DB_PATH = os.getenv('DATABASE_URL', 'Not set') 
+DB_PATH = os.getenv('DATABASE_URL', 'Not set')
 
-if DB_PATH == "Not set": 
-    DB_PATH = "postgres://{}:{}@{}/{}".format(DB_USER, DB_PASSWORD , DB_HOST , DB_NAME)
+if DB_PATH == "Not set":
+    DB_PATH = (
+        "postgres://{}:{}@{}/{}".format(DB_USER,
+                                        DB_PASSWORD,
+                                        DB_HOST,
+                                        DB_NAME))
 
 
 def setup_db(app, DB_PATH=DB_PATH):
@@ -31,12 +33,13 @@ def setup_db(app, DB_PATH=DB_PATH):
     db.app = app
     db.init_app(app)
     db.create_all()
-    
+
 
 def db_drop_and_create():
     db.drop_all()
     db.create_all()
     insert_basic_data()
+
 
 def insert_basic_data():
     actor_basic_data = Actor(name="Keanu Reeves", age=56, gender="Male")
@@ -44,7 +47,9 @@ def insert_basic_data():
     actor_basic_data = Actor(name="Carrie-Anne Moss", age=53, gender="Female")
     actor_basic_data.insert()
 
-    movie_basic_data = Movie(title="Matrix 4", release_date=date.today(), imdb_rating=10)
+    movie_basic_data = Movie(title="Matrix 4",
+                             release_date=date.today(),
+                             imdb_rating=10)
     movie_basic_data.insert()
 
 

@@ -12,24 +12,27 @@ AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID", "Not set")
 AUTH0_CALLBACK_URL = os.getenv("AUTH0_CALLBACK_URL", "Not set")
 
 if AUTH0_DOMAIN == "Not set":
-    #not AUTH0_DOMAIN or not ALGORITHMS or notAPI_AUDIENCE or not AUTH0_CLIENT_ID or not AUTH0_CALLBACK_URL:
     print("no environment detected. takes preset")
-    AUTH0_DOMAIN= os.getenv('AUTH0_DOMAIN',"dev-t-4sg5-6.eu.auth0.com")
-    API_AUDIENCE=os.getenv("API_AUDIENCE","agency")
-    ALGORITHMS=os.getenv("ALGORITHMS",['RS256'])
-    AUTH0_CLIENT_ID=os.getenv("AUTH0_CLIENT_ID","DRQkvwQZrdvpBOs65wzGSz4pmxTps1tx")
-    AUTH0_CALLBACK_URL=os.getenv("AUTH0_CALLBACK_URL","https://localhost:5000")
+    AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN', "dev-t-4sg5-6.eu.auth0.com")
+    API_AUDIENCE = os.getenv("API_AUDIENCE", "agency")
+    ALGORITHMS = os.getenv("ALGORITHMS", ['RS256'])
+    AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID",
+                                "DRQkvwQZrdvpBOs65wzGSz4pmxTps1tx")
+    AUTH0_CALLBACK_URL = os.getenv("AUTH0_CALLBACK_URL",
+                                   "https://localhost:5000")
 
 
+# AuthError Exception
 
-## AuthError Exception
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
 
-## Auth Header
+
+# Auth Header
+
 
 def get_token_auth_header():
     auth = request.headers.get('Authorization', None)
@@ -61,12 +64,13 @@ def get_token_auth_header():
     token = parts[1]
     return token
 
+
 def check_permissions(permission, payload):
     if 'permissions' not in payload:
-                        raise AuthError({
-                            'code': 'invalid_claims',
-                            'description': 'Permissions not included in JWT.'
-                        }, 400)
+        raise AuthError({
+            'code': 'invalid_claims',
+            'description': 'Permissions not included in JWT.'
+        }, 400)
 
     if permission not in payload['permissions']:
         raise AuthError({
@@ -81,10 +85,10 @@ def verify_decode_jwt(token):
     # GET THE PUBLIC KEY FROM AUTH0
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
-    
+
     # GET THE DATA IN THE HEADER
     unverified_header = jwt.get_unverified_header(token)
-    
+
     # CHOOSE OUR KEY
     rsa_key = {}
     if 'kid' not in unverified_header:
@@ -103,7 +107,7 @@ def verify_decode_jwt(token):
                 'n': key['n'],
                 'e': key['e']
             }
-    
+
     if rsa_key:
         try:
             payload = jwt.decode(
@@ -128,10 +132,11 @@ def verify_decode_jwt(token):
             raise AuthError({
                 'success': False,
                 'code': 'invalid_claims',
-                'description': 'Incorrect claims. Please, check the audience and issuer.',
+                'description': 'Incorrect claims.'
+                               'Please, check the audience and issuer.',
                 'error': 401,
             }, 401)
-        
+
         except Exception:
             raise AuthError({
                 'success': False,
@@ -139,7 +144,7 @@ def verify_decode_jwt(token):
                 'description': 'Unable to parse authentication token.',
                 'error': 400
             }, 400)
-    
+
     raise AuthError({
                 'success': False,
                 'code': 'invalid_header',

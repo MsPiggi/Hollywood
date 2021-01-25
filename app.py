@@ -9,7 +9,7 @@ from auth import AuthError, requires_auth
 
 # Create App
 def create_app(test_config=None):
-    
+
     app = Flask(__name__)
     setup_db(app)
     CORS(app)
@@ -37,14 +37,14 @@ def create_app(test_config=None):
 
     @app.route("/auth")
     def generate_auth_url():
-        
+
         print("no auth. take preset")
-        AUTH0_DOMAIN= "dev-t-4sg5-6.eu.auth0.com"
-        API_AUDIENCE="agency"
-        ALGORITHMS=['RS256']
-        AUTH0_CLIENT_ID="DRQkvwQZrdvpBOs65wzGSz4pmxTps1tx"
-        AUTH0_CALLBACK_URL="https://localhost:5000"
-        
+        AUTH0_DOMAIN = "dev-t-4sg5-6.eu.auth0.com"
+        API_AUDIENCE = "agency"
+        ALGORITHMS = ['RS256']
+        AUTH0_CLIENT_ID = "DRQkvwQZrdvpBOs65wzGSz4pmxTps1tx"
+        AUTH0_CALLBACK_URL = "https://localhost:5000"
+
         url = f'https://{AUTH0_DOMAIN}/authorize' \
             f'?audience={API_AUDIENCE}' \
             f'&response_type=token&client_id=' \
@@ -55,12 +55,12 @@ def create_app(test_config=None):
             'auth_url': url
         })
 
-    #Movie endpoints
-  
+    # Movie endpoints
+
     @app.route("/movies", methods=["GET"])
     @requires_auth("get:movies")
     def get_movies(payload):
-        
+
         movies = [movie.format() for movie in Movie.query.all()]
         if movies is None:
             abort(404)
@@ -74,11 +74,11 @@ def create_app(test_config=None):
     @requires_auth("post:movies")
     def post_movie(payload):
         body = request.get_json()
-        check_keys={"title", "release_date","imdb_rating"}
+        check_keys = {"title", "release_date", "imdb_rating"}
 
         if body is None:
             abort(404)
-        
+
         if not (body.keys()) >= check_keys:
             abort(422)
 
@@ -86,7 +86,9 @@ def create_app(test_config=None):
         release_date = body["release_date"]
         imdb_rating = body["imdb_rating"]
 
-        new_movie = Movie(title=title, release_date=release_date, imdb_rating=imdb_rating)
+        new_movie = Movie(title=title,
+                          release_date=release_date,
+                          imdb_rating=imdb_rating)
         new_movie.insert()
 
         return jsonify({
@@ -98,16 +100,16 @@ def create_app(test_config=None):
     @app.route("/movies/<int:movie_id>", methods=["PATCH"])
     @requires_auth("patch:movies")
     def update_movie(payload, movie_id):
-        
+
         body = request.get_json()
-        check_keys={"title", "release_date","imdb_rating"}
- 
+        check_keys = {"title", "release_date", "imdb_rating"}
+
         if body is None:
             abort(404)
-        
+
         if not (body.keys()) >= check_keys:
             abort(422)
-    
+
         try:
             movie = Movie.query.get(movie_id)
 
@@ -118,9 +120,9 @@ def create_app(test_config=None):
             movie.release_date = body["release_date"]
             movie.imdb_rating = body["imdb_rating"]
             movie.update()
-            
+
             updated_movie = Movie.query.get(movie_id)
-            
+
             return jsonify({
                 "success": True,
                 "movies": [updated_movie.format()]
@@ -132,13 +134,13 @@ def create_app(test_config=None):
     @app.route("/movies/<int:movie_id>", methods=["DELETE"])
     @requires_auth("delete:movies")
     def delete_movie(payload, movie_id):
-        
+
         try:
             movie = Movie.query.get(movie_id)
 
             if movie is None:
                 abort(404)
-            
+
             deleted_movie = Movie.query.filter_by(id=movie_id).first()
             movie = Movie.query.get(movie_id).delete()
 
@@ -147,19 +149,19 @@ def create_app(test_config=None):
                 "delete": movie_id,
                 "deleted_movie": [deleted_movie.format()]
             })
-        
+
         except AuthError:
             abort(422)
-            
-    #Actors
+
+    # Actors
 
     @app.route("/actors", methods=["GET"])
     @requires_auth("get:actors")
     def get_actors(payload):
-        
+
         try:
             actors = [actor.format() for actor in Actor.query.all()]
-            
+
             if actors is None:
                 abort(404)
 
@@ -176,7 +178,7 @@ def create_app(test_config=None):
     def create_actor(payload):
         body = request.get_json()
         check_keys = {"name", "age", "gender"}
-                
+
         if not (body.keys()) >= check_keys:
             abort(422)
 
@@ -195,12 +197,12 @@ def create_app(test_config=None):
     @app.route("/actors/<int:actor_id>", methods=["PATCH"])
     @requires_auth("patch:actors")
     def patch_actor(payload, actor_id):
-        
+
         body = request.get_json()
         check_keys = {"name", "age", "gender"}
 
         if body is None:
-            abort(404) 
+            abort(404)
 
         if not (body.keys()) >= check_keys:
             abort(422)
@@ -215,9 +217,9 @@ def create_app(test_config=None):
             actor.age = body["age"]
             actor.gender = body["gender"]
             actor.update()
-            
+
             updated_actor = Actor.query.get(actor_id)
-            
+
             return jsonify({
                 "success": True,
                 "actor": [updated_actor.format()]
@@ -225,7 +227,6 @@ def create_app(test_config=None):
 
         except AuthError:
             abort(422)
-
 
     @app.route("/actors/<int:actor_id>", methods=["DELETE"])
     @requires_auth("delete:actors")
@@ -237,15 +238,15 @@ def create_app(test_config=None):
 
             deleted_actor = Actor.query.filter_by(id=actor_id).first()
             Actor.query.get(actor_id).delete()
-            
+
             return jsonify({
                 "success": True,
                 "deleted_actor": [deleted_actor.format()]
             })
-        
+
         except AuthError:
             abort(422)
-    
+
     # Error Handling
 
     @app.errorhandler(422)
